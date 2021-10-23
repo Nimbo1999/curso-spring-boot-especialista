@@ -3,7 +3,9 @@ package io.github.nimbo1999.rest.controller;
 import io.github.nimbo1999.domain.entity.Pedido;
 import io.github.nimbo1999.rest.dto.PedidoDTO;
 import io.github.nimbo1999.service.PedidoService;
-import org.springframework.http.HttpStatus;
+// Esse import foi substituido por um static import, logo consigo acessar o Enum HttpStatus.CREATED
+// apenas com CREATED.
+// import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.*;

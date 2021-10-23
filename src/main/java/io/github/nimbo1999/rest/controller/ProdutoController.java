@@ -1,6 +1,5 @@
 package io.github.nimbo1999.rest.controller;
 
-import io.github.nimbo1999.domain.entity.Cliente;
 import io.github.nimbo1999.domain.entity.Produto;
 import io.github.nimbo1999.domain.repository.Produtos;
 import org.springframework.data.domain.Example;
@@ -73,7 +72,7 @@ public class ProdutoController {
                 .withStringMatcher(
                         ExampleMatcher.StringMatcher.CONTAINING );
 
-        Example example = Example.of(filtro, matcher);
+        Example<Produto> example = Example.of(filtro, matcher);
         return repository.findAll(example);
     }
 }
