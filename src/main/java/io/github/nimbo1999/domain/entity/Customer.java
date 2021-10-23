@@ -12,8 +12,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table( name = "cliente" )
-public class Cliente {
+@Table( name = "customer" )
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,10 +27,10 @@ public class Cliente {
     private String cpf;
 
     @JsonIgnore
-    @OneToMany( mappedBy = "cliente" , fetch = FetchType.LAZY )
+    @OneToMany( mappedBy = "customer" , fetch = FetchType.LAZY )
     private Set<Pedido> pedidos;
 
-    public Cliente(Integer id, String nome) {
+    public Customer(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
     }

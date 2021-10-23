@@ -22,8 +22,8 @@ public class Pedido {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
     @Column(name = "data_pedido")
     private LocalDate dataPedido;

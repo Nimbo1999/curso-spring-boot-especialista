@@ -1,10 +1,10 @@
 package io.github.nimbo1999.service.impl;
 
-import io.github.nimbo1999.domain.entity.Cliente;
+import io.github.nimbo1999.domain.entity.Customer;
 import io.github.nimbo1999.domain.entity.ItemPedido;
 import io.github.nimbo1999.domain.entity.Pedido;
 import io.github.nimbo1999.domain.entity.Produto;
-import io.github.nimbo1999.domain.repository.Clientes;
+import io.github.nimbo1999.domain.repository.Customers;
 import io.github.nimbo1999.domain.repository.ItemsPedido;
 import io.github.nimbo1999.domain.repository.Pedidos;
 import io.github.nimbo1999.domain.repository.Produtos;
@@ -25,21 +25,21 @@ import java.util.stream.Collectors;
 public class PedidoServiceImpl implements PedidoService {
 
     private final Pedidos repository;
-    private final Clientes clientesRepository;
+    private final Customers customerRepository;
     private final Produtos produtosRepository;
     private final ItemsPedido itemsPedidoRepository;
 
     @Override
     @Transactional
     public Pedido salvar( PedidoDTO dto ) {
-        Cliente cliente = clientesRepository
+        Customer customer = customerRepository
                 .findById(dto.getCliente())
-                .orElseThrow(() -> new RegraNegocioException("Código de cliente inválido."));
+                .orElseThrow(() -> new RegraNegocioException("Inválid customer Id"));
 
         Pedido pedido = new Pedido();
         pedido.setTotal(dto.getTotal());
         pedido.setDataPedido(LocalDate.now());
-        pedido.setCliente(cliente);
+        pedido.setCustomer(customer);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItems());
         repository.save(pedido);
