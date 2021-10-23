@@ -32,9 +32,8 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     @Transactional
     public Pedido salvar( PedidoDTO dto ) {
-        Integer idCliente = dto.getCliente();
         Cliente cliente = clientesRepository
-                .findById(idCliente)
+                .findById(dto.getCliente())
                 .orElseThrow(() -> new RegraNegocioException("Código de cliente inválido."));
 
         Pedido pedido = new Pedido();
@@ -55,22 +54,23 @@ public class PedidoServiceImpl implements PedidoService {
         }
 
         return items
-                .stream()
-                .map( dto -> {
-                    Integer idProduto = dto.getProduto();
-                    Produto produto = produtosRepository
-                            .findById(idProduto)
-                            .orElseThrow(
-                                    () -> new RegraNegocioException(
-                                            "Código de produto inválido: "+ idProduto
-                                    ));
+            .stream()
+            .map(dto -> converterItem(pedido, dto))
+            .collect(Collectors.toList());
+    }
 
-                    ItemPedido itemPedido = new ItemPedido();
-                    itemPedido.setQuantidade(dto.getQuantidade());
-                    itemPedido.setPedido(pedido);
-                    itemPedido.setProduto(produto);
-                    return itemPedido;
-                }).collect(Collectors.toList());
+    private ItemPedido converterItem(Pedido pedido, ItemPedidoDTO itemPedidoDto) {
+        Integer idProduto = itemPedidoDto.getProduto();
+        Produto produto = produtosRepository
+            .findById(idProduto)
+            .orElseThrow(() -> new RegraNegocioException(
+                "Código de produto inválido: "+ idProduto
+            ));
 
+        ItemPedido itemPedido = new ItemPedido();
+        itemPedido.setQuantidade(itemPedidoDto.getQuantidade());
+        itemPedido.setPedido(pedido);
+        itemPedido.setProduto(produto);
+        return itemPedido;
     }
 }
