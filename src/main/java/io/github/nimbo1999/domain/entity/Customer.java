@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import java.time.Instant;
 import java.util.Set;
 
 @Data
@@ -29,6 +31,12 @@ public class Customer {
     @JsonIgnore
     @OneToMany( mappedBy = "customer" , fetch = FetchType.LAZY )
     private Set<Pedido> pedidos;
+
+    @Column(name = "created_at")
+    private Instant createdAt;
+
+    @Column(name = "updated_at")
+    private Instant updatedAt;
 
     public Customer(Integer id, String nome) {
         this.id = id;

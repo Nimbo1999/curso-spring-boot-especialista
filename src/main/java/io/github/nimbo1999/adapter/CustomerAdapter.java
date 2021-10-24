@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import io.github.nimbo1999.domain.entity.Customer;
 import io.github.nimbo1999.rest.dto.CustomerDTO;
+import io.github.nimbo1999.utils.InstantUtils;
 
 public class CustomerAdapter {
 
@@ -13,6 +14,8 @@ public class CustomerAdapter {
         customer.setId(customerDto.getId());
         customer.setCpf(customerDto.getPersonId());
         customer.setNome(customerDto.getName());
+        customer.setCreatedAt(InstantUtils.instantNow(customerDto.getCreatedAt()));
+        customer.setUpdatedAt(InstantUtils.instantNow(customerDto.getUpdatedAt()));
         return customer;
     }
 
@@ -21,6 +24,8 @@ public class CustomerAdapter {
         customerDto.setId(customer.getId());
         customerDto.setName(customer.getNome());
         customerDto.setPersonId(customer.getCpf());
+        customerDto.setCreatedAt(InstantUtils.toISOString(customer.getCreatedAt()));
+        customerDto.setUpdatedAt(InstantUtils.toISOString(customer.getUpdatedAt()));
         return customerDto;
     }
 

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,5 +23,11 @@ public class Produto {
 
     @Column(name = "preco_unitario")
     private BigDecimal preco;
+
+    @Column(name = "created_at")
+    private Instant createdAt;
+
+    @Column(name = "updated_at")
+    private Instant updatedAt;
 
 }
