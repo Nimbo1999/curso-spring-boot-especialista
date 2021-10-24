@@ -16,8 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,7 +39,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         Pedido pedido = new Pedido();
         pedido.setTotal(dto.getTotal());
-        pedido.setDataPedido(LocalDate.now());
+        pedido.setDataPedido(Instant.now());
         pedido.setCustomer(customer);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItems());
@@ -72,5 +73,10 @@ public class PedidoServiceImpl implements PedidoService {
         itemPedido.setPedido(pedido);
         itemPedido.setProduto(produto);
         return itemPedido;
+    }
+
+    @Override
+    public Optional<Pedido> obterPedidoCompleto(Integer id) {
+        return repository.findByIdFetchItens(id);
     }
 }

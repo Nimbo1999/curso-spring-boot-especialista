@@ -11,4 +11,6 @@ public class CustomerDTO {
     private Integer id;
     private String name;
     private String personId;
+    private String createdAt;
+    private String updatedAt;
 }

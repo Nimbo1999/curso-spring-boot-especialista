@@ -15,6 +15,7 @@ import io.github.nimbo1999.domain.repository.Customers;
 import io.github.nimbo1999.exception.RegraNegocioException;
 import io.github.nimbo1999.rest.dto.CustomerDTO;
 import io.github.nimbo1999.service.CustomerService;
+import io.github.nimbo1999.utils.InstantUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -38,8 +39,13 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RegraNegocioException("It's required to send customer name");
         }
         Customer newCustomer = CustomerAdapter.dtoToEntity(customer);
+        newCustomer.setCreatedAt(InstantUtils.instantNow());
+        newCustomer.setUpdatedAt(InstantUtils.instantNow());
+
         Integer customerId = customerRepository.save(newCustomer).getId();
         customer.setId(customerId);
+        customer.setCreatedAt(InstantUtils.toISOString(newCustomer.getCreatedAt()));
+        customer.setUpdatedAt(InstantUtils.toISOString(newCustomer.getUpdatedAt()));
         return customer;
     }
 
@@ -67,6 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
                 if (customerDto.getPersonId() != null) {
                     persistedCustomer.setCpf(customerDto.getPersonId());
                 }
+                persistedCustomer.setUpdatedAt(InstantUtils.instantNow());
                 return customerRepository.save(persistedCustomer);
             })
             .orElseThrow(() -> new ResponseStatusException(

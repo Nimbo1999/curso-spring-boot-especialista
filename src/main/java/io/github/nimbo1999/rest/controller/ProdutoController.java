@@ -2,6 +2,8 @@ package io.github.nimbo1999.rest.controller;
 
 import io.github.nimbo1999.domain.entity.Produto;
 import io.github.nimbo1999.domain.repository.Produtos;
+import io.github.nimbo1999.utils.InstantUtils;
+
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,8 @@ public class ProdutoController {
     @PostMapping
     @ResponseStatus(CREATED)
     public Produto save( @RequestBody Produto produto ){
+        produto.setCreatedAt(InstantUtils.instantNow());
+        produto.setUpdatedAt(InstantUtils.instantNow());
         return repository.save(produto);
     }
 
@@ -35,8 +39,8 @@ public class ProdutoController {
                 .findById(id)
                 .map( p -> {
                    produto.setId(p.getId());
-                   repository.save(produto);
-                   return produto;
+                   produto.setUpdatedAt(InstantUtils.instantNow());
+                   return repository.save(produto);
                 }).orElseThrow( () ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Produto não encontrado."));
@@ -56,7 +60,7 @@ public class ProdutoController {
     }
 
     @GetMapping("{id}")
-    public Produto getById(@PathVariable Integer id){
+    public Produto getById(@PathVariable Integer id) {
         return repository
                 .findById(id)
                 .orElseThrow( () ->

@@ -5,8 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+import io.github.nimbo1999.domain.enums.StatusPedido;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -26,7 +29,7 @@ public class Pedido {
     private Customer customer;
 
     @Column(name = "data_pedido")
-    private LocalDate dataPedido;
+    private Instant dataPedido;
 
     @Column(name = "total", precision = 20, scale = 2)
     private BigDecimal total;
@@ -34,4 +37,9 @@ public class Pedido {
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private StatusPedido status;
+
 }
+ 
