@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/customers")
@@ -24,7 +26,7 @@ public class CustomerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDTO save(@RequestBody CustomerDTO customerDto){
+    public CustomerDTO save(@RequestBody @Valid CustomerDTO customerDto){
         return service.save(customerDto);
     }
 
