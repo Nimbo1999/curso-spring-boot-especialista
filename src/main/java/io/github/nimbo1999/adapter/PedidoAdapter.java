@@ -1,7 +1,5 @@
 package io.github.nimbo1999.adapter;
 
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,15 +19,11 @@ public class PedidoAdapter {
 
         return OrderInfoDTO.builder()
             .codigo(pedido.getId())
-            .dataPedido(
-                pedido
-                    .getDataPedido()
-                    .atZone(ZoneId.systemDefault())
-                    .format(DateTimeFormatter.ISO_INSTANT)
-            )
+            .dataPedido(pedido.getDataPedido())
             .customerPersonId(customer.getCpf())
             .customerName(customer.getNome())
             .total(pedido.getTotal())
+            .status(pedido.getStatus().name())
             .items(PedidoAdapter.orderItemPedidoEntityToDto(pedido.getItens()))
             .build();
     }

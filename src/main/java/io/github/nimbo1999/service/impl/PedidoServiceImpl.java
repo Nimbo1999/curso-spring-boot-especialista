@@ -4,19 +4,21 @@ import io.github.nimbo1999.domain.entity.Customer;
 import io.github.nimbo1999.domain.entity.ItemPedido;
 import io.github.nimbo1999.domain.entity.Pedido;
 import io.github.nimbo1999.domain.entity.Produto;
+import io.github.nimbo1999.domain.enums.StatusPedido;
 import io.github.nimbo1999.domain.repository.Customers;
 import io.github.nimbo1999.domain.repository.ItemsPedido;
 import io.github.nimbo1999.domain.repository.Pedidos;
 import io.github.nimbo1999.domain.repository.Produtos;
+import io.github.nimbo1999.exception.PedidoNaoEncontradoException;
 import io.github.nimbo1999.exception.RegraNegocioException;
 import io.github.nimbo1999.rest.dto.ItemPedidoDTO;
 import io.github.nimbo1999.rest.dto.PedidoDTO;
 import io.github.nimbo1999.service.PedidoService;
+import io.github.nimbo1999.utils.InstantUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,13 +36,14 @@ public class PedidoServiceImpl implements PedidoService {
     @Transactional
     public Pedido salvar( PedidoDTO dto ) {
         Customer customer = customerRepository
-                .findById(dto.getCliente())
-                .orElseThrow(() -> new RegraNegocioException("Inválid customer Id"));
+            .findById(dto.getCliente())
+            .orElseThrow(() -> new RegraNegocioException("Inválid customer Id"));
 
         Pedido pedido = new Pedido();
         pedido.setTotal(dto.getTotal());
-        pedido.setDataPedido(Instant.now());
+        pedido.setDataPedido(InstantUtils.instantNow());
         pedido.setCustomer(customer);
+        pedido.setStatus(StatusPedido.REALIZADO);
 
         List<ItemPedido> itemsPedido = converterItems(pedido, dto.getItems());
         repository.save(pedido);
@@ -49,7 +52,7 @@ public class PedidoServiceImpl implements PedidoService {
         return pedido;
     }
 
-    private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items){
+    private List<ItemPedido> converterItems(Pedido pedido, List<ItemPedidoDTO> items) {
         if(items.isEmpty()){
             throw new RegraNegocioException("Não é possível realizar um pedido sem items.");
         }
@@ -78,5 +81,15 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public Optional<Pedido> obterPedidoCompleto(Integer id) {
         return repository.findByIdFetchItens(id);
+    }
+
+    @Override
+    public void atualizaStatus(Integer id, StatusPedido statusPedido) {
+        repository.findById(id)
+            .map(pedido -> {
+                pedido.setStatus(statusPedido);
+                return repository.save(pedido);
+            })
+            .orElseThrow(() -> new PedidoNaoEncontradoException());
     }
 }

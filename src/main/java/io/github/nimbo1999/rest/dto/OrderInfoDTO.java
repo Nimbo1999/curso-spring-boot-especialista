@@ -1,6 +1,7 @@
 package io.github.nimbo1999.rest.dto;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class OrderInfoDTO {
     private String customerPersonId;
     private String customerName;
     private BigDecimal total;
-    private String dataPedido;
+    private Instant dataPedido;
+    private String status;
     private List<OrderItemInfoDTO> items;
 }

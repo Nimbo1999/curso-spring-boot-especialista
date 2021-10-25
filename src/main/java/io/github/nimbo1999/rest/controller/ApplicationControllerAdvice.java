@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import io.github.nimbo1999.exception.PedidoNaoEncontradoException;
 import io.github.nimbo1999.exception.RegraNegocioException;
 import io.github.nimbo1999.rest.ApiErrors;
 
@@ -18,4 +19,9 @@ public class ApplicationControllerAdvice {
         return new ApiErrors(exeption.getMessage());
     }
 
+    @ExceptionHandler(PedidoNaoEncontradoException.class)
+    @ResponseStatus(code = NOT_FOUND)
+    public ApiErrors handlePedidoNaoEncontradoException(PedidoNaoEncontradoException exeption) {
+        return new ApiErrors(exeption.getMessage());
+    }
 }

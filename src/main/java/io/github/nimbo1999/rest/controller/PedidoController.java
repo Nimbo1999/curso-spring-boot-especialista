@@ -2,8 +2,10 @@ package io.github.nimbo1999.rest.controller;
 
 import io.github.nimbo1999.adapter.PedidoAdapter;
 import io.github.nimbo1999.domain.entity.Pedido;
+import io.github.nimbo1999.domain.enums.StatusPedido;
 import io.github.nimbo1999.rest.dto.OrderInfoDTO;
 import io.github.nimbo1999.rest.dto.PedidoDTO;
+import io.github.nimbo1999.rest.dto.UpdateOrderStatusDTO;
 import io.github.nimbo1999.service.PedidoService;
 // Esse import foi substituido por um static import, logo consigo acessar o Enum HttpStatus.CREATED
 // apenas com CREATED.
@@ -37,6 +39,12 @@ public class PedidoController {
             .obterPedidoCompleto(orderId)
             .map(PedidoAdapter::orderEntityToDTO)
             .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Pedido nao encontrado"));
+    }
+
+    @PatchMapping("{orderId}")
+    @ResponseStatus(NO_CONTENT)
+    public void updateStatus(@PathVariable Integer orderId, @RequestBody UpdateOrderStatusDTO orderStatus) {
+        service.atualizaStatus(orderId, StatusPedido.valueOf(orderStatus.getStatus()));
     }
 
 }
