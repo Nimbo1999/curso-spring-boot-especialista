@@ -1,5 +1,6 @@
 package io.github.nimbo1999.service.impl;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,13 +40,14 @@ public class CustomerServiceImpl implements CustomerService {
             throw new RegraNegocioException("It's required to send customer name");
         }
         Customer newCustomer = CustomerAdapter.dtoToEntity(customer);
-        newCustomer.setCreatedAt(InstantUtils.instantNow());
-        newCustomer.setUpdatedAt(InstantUtils.instantNow());
+        Instant now = InstantUtils.instantNow();
+        newCustomer.setCreatedAt(now);
+        newCustomer.setUpdatedAt(now);
 
         Integer customerId = customerRepository.save(newCustomer).getId();
         customer.setId(customerId);
-        customer.setCreatedAt(InstantUtils.toISOString(newCustomer.getCreatedAt()));
-        customer.setUpdatedAt(InstantUtils.toISOString(newCustomer.getUpdatedAt()));
+        customer.setCreatedAt(newCustomer.getCreatedAt());
+        customer.setUpdatedAt(newCustomer.getUpdatedAt());
         return customer;
     }
 
@@ -90,7 +92,8 @@ public class CustomerServiceImpl implements CustomerService {
             .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
 
         Example<Customer> example = Example.of(CustomerAdapter.dtoToEntity(filter), matcher);
-        return CustomerAdapter.entityListToDtoList(customerRepository.findAll(example));
+        List<Customer> customerList = customerRepository.findAll(example);
+        return CustomerAdapter.entityListToDtoList(customerList);
     }
     
 }

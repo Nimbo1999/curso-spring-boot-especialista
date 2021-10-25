@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Instant;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -26,15 +27,16 @@ public class ProdutoController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Produto save( @RequestBody Produto produto ){
-        produto.setCreatedAt(InstantUtils.instantNow());
-        produto.setUpdatedAt(InstantUtils.instantNow());
+    public Produto save(@RequestBody Produto produto) {
+        Instant now = InstantUtils.instantNow();
+        produto.setCreatedAt(now);
+        produto.setUpdatedAt(now);
         return repository.save(produto);
     }
 
     @PutMapping("{id}")
     @ResponseStatus(NO_CONTENT)
-    public void update( @PathVariable Integer id, @RequestBody Produto produto ){
+    public void update(@PathVariable Integer id, @RequestBody Produto produto) {
         repository
                 .findById(id)
                 .map( p -> {
@@ -48,7 +50,7 @@ public class ProdutoController {
 
     @DeleteMapping("{id}")
     @ResponseStatus(NO_CONTENT)
-    public void delete(@PathVariable Integer id){
+    public void delete(@PathVariable Integer id) {
         repository
                 .findById(id)
                 .map( p -> {
@@ -69,7 +71,7 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public List<Produto> find(Produto filtro ){
+    public List<Produto> find(Produto filtro ) {
         ExampleMatcher matcher = ExampleMatcher
                 .matching()
                 .withIgnoreCase()

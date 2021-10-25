@@ -6,16 +6,16 @@ import java.time.format.DateTimeFormatter;
 
 public class InstantUtils {
     public static final DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
-    public static final ZoneId zoneId = ZoneId.systemDefault();
+    public static final ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
 
     public static Instant instantNow(String instantTime) {
-      if (instantTime == null) {
-          return instantNow();
-      }
+        if (instantTime == null) {
+            return null;
+        }
 
-      return Instant.parse(instantTime)
-          .atZone(zoneId)
-          .toInstant();
+        return Instant.parse(instantTime)
+            .atZone(zoneId)
+            .toInstant();
     }
 
     public static Instant instantNow() {
@@ -26,8 +26,6 @@ public class InstantUtils {
     }
 
     public static String toISOString(Instant time) {
-        return time.
-          atZone(zoneId)
-          .format(formatter);
+        return time.atZone(zoneId).format(formatter);
     }
 }

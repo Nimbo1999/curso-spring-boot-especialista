@@ -1,5 +1,7 @@
 package io.github.nimbo1999.rest.dto;
 
+import java.time.Instant;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,6 @@ public class CustomerDTO {
     private Integer id;
     private String name;
     private String personId;
-    private String createdAt;
-    private String updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }
