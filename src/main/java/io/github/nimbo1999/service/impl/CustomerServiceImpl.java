@@ -53,14 +53,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void delete(Integer customerId) {
-        Optional<Customer> customer = customerRepository.findById(customerId);
-        if (customer.isEmpty()) {
-            throw new ResponseStatusException(
+        Customer customer = customerRepository
+            .findById(customerId)
+            .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND,
                 "Customer not found"
-            );
-        }
-        customerRepository.delete(customer.get());
+            ));
+
+        customerRepository.delete(customer);
     }
 
     @Override

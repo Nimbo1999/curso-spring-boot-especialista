@@ -3,6 +3,7 @@ package io.github.nimbo1999.rest.controller;
 import io.github.nimbo1999.domain.entity.Produto;
 import io.github.nimbo1999.domain.repository.Produtos;
 import io.github.nimbo1999.utils.InstantUtils;
+import lombok.AllArgsConstructor;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -17,15 +18,12 @@ import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.*;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutoController {
 
     private Produtos repository;
-
-    public ProdutoController(Produtos repository) {
-        this.repository = repository;
-    }
 
     @PostMapping
     @ResponseStatus(CREATED)
