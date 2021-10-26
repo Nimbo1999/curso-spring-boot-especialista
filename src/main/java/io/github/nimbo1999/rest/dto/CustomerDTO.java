@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class CustomerDTO {
     private Integer id;
-    @NotEmpty(message = "Customer name it's Required!")
+    @NotEmpty(message = "{campo.nome.obrigatorio}")
     private String name;
-    @NotEmpty(message = "Customer personId it's Required!")
-    @CPF(message = "Customer personId it's invalid!")
+    @NotEmpty(message = "{campo.cpf.obrigatorio}")
+    @CPF(message = "{campo.cpf.invalido}")
     private String personId;
     private Instant createdAt;
     private Instant updatedAt;

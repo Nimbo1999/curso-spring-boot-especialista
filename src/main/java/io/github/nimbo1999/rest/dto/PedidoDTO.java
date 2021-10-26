@@ -15,10 +15,10 @@ import io.github.nimbo1999.validation.NotEmptyList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PedidoDTO {
-    @NotNull(message = "É obrigatório informar o código de um cliente!")
+    @NotNull(message = "{campo.codigo-cliente.obrigatorio}")
     private Integer cliente;
-    @NotNull(message = "É obrigatório informar o valor total do pedido!")
+    @NotNull(message = "{campo.total-pedido.obrigatorio}")
     private BigDecimal total;
-    @NotEmptyList(message = "A lista de itens deve ser informada!")
+    @NotEmptyList(message = "{campo.items-pedido.obrigatorio}")
     private List<ItemPedidoDTO> items;
 }
