@@ -26,9 +26,9 @@ public class UsuarioServiceImpl implements UserDetailsService {
     public UsuarioResponseDTO salvar(Usuario user) {
         String senhaEncoded = passwordEncoder.encode(user.getSenha());
         user.setSenha(senhaEncoded);
-        usuarioRepository.save(user);
+        Integer id = usuarioRepository.save(user).getId();
         return UsuarioResponseDTO.builder()
-            .login(user.getLogin())
+            .id(id)
             .isAdmin(user.isAdmin())
             .build();
     }

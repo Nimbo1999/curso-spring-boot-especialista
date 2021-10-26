@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class UsuarioResponseDTO {
-    private String login;
+    private Integer id;
     private boolean isAdmin;
 }

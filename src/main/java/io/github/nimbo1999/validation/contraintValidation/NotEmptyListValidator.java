@@ -16,7 +16,6 @@ public class NotEmptyListValidator implements ConstraintValidator<NotEmptyList, 
 
     @Override
     public void initialize(NotEmptyList constraintAnnotation) {
-        // TODO Auto-generated method stub
         ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
