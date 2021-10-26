@@ -2,7 +2,6 @@ package io.github.nimbo1999.service.impl;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
