@@ -7,10 +7,10 @@ import javax.validation.ConstraintValidatorContext;
 
 import io.github.nimbo1999.validation.NotEmptyList;
 
-public class NotEmptyListValidator implements ConstraintValidator<NotEmptyList, List> {
+public class NotEmptyListValidator implements ConstraintValidator<NotEmptyList, List<?>> {
 
     @Override
-    public boolean isValid(List listToValidate, ConstraintValidatorContext arg1) {
+    public boolean isValid(List<?> listToValidate, ConstraintValidatorContext arg1) {
         return listToValidate != null && !listToValidate.isEmpty();
     }
 
