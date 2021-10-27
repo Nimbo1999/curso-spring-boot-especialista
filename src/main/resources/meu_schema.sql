@@ -39,3 +39,8 @@ CREATE TABLE usuario (
     senha VARCHAR(255) NOT NULL,
     admin BOOL DEFAULT FALSE
 );
+
+/*
+    Creating a docker container:
+    docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=dev1234# -d mysql
+*/
